@@ -33,4 +33,4 @@ jobs:
         sleep 20
 
         # run the tests. Increased timeout as query takes a bit longer to run
-        docker compose exec -T pg ./run_tests.sh
+        timeout 180s docker compose exec -T pg ./run_tests.sh
