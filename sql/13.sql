@@ -13,7 +13,7 @@
 SELECT fa.actor_id, a.first_name, a.last_name, r.film_id, r.title, rank, amt as revenue
 FROM (SELECT DISTINCT actor_id FROM film_actor fa) as fa
 JOIN LATERAL (
-    SELECT fa1.film_id, f.title, ROW_NUMBER() OVER (ORDER BY SUM(p.amount) DESC) AS rank, SUM(p.amount) as amt 
+    SELECT fa1.film_id, f.title, RANK() OVER (ORDER BY SUM(p.amount) DESC) AS rank, SUM(p.amount) as amt 
     FROM film_actor fa1
     JOIN film f ON fa1.film_id=f.film_id
     JOIN inventory i ON f.film_id = i.film_id
