@@ -35,7 +35,7 @@ jobs:
         # run the tests. Increased timeout as query takes a bit longer to run
         docker compose exec -T pg ./run_tests.sh
     - name: Run failing SQL separately
-    run: |
-      set -e  # Fail on errors
-      echo "Running sql/13.sql separately to debug..."
-      docker compose exec -T pg psql -U user -d mydb -f sql/13.sql || echo "sql/13.sql failed" >&2
+      run: |
+        set -e  # Fail on errors
+        echo "Running sql/13.sql separately to debug..."
+        docker compose exec -T pg psql -U user -d mydb -f sql/13.sql || echo "sql/13.sql failed" >&2
