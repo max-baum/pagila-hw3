@@ -10,7 +10,7 @@
  * My solution uses the `rank` window function.
  */
 
-/**SELECT fa.actor_id, a.first_name, a.last_name, r.film_id, r.title, rank, amt as revenue
+SELECT fa.actor_id, a.first_name, a.last_name, r.film_id, r.title, rank, amt as revenue
 FROM (SELECT DISTINCT actor_id FROM film_actor fa) as fa
 JOIN LATERAL (
     SELECT fa1.film_id, f.title, ROW_NUMBER() OVER (ORDER BY SUM(p.amount) DESC) AS rank, SUM(p.amount) as amt 
@@ -26,21 +26,5 @@ JOIN LATERAL (
 ) r ON TRUE
 JOIN actor a ON fa.actor_id=a.actor_id
 ORDER BY fa.actor_id
-**/
 
-SELECT fa.actor_id, a.first_name, a.last_name, r.film_id, r.title, r.rank, r.revenue
-FROM (
-    SELECT fa.actor_id, fa1.film_id, f.title,
-           ROW_NUMBER() OVER (PARTITION BY fa.actor_id ORDER BY SUM(p.amount) DESC) AS rank,
-           SUM(p.amount) AS revenue
-    FROM film_actor fa
-    JOIN film_actor fa1 ON fa.actor_id = fa1.actor_id
-    JOIN film f ON fa1.film_id = f.film_id
-    JOIN inventory i ON f.film_id = i.film_id
-    JOIN rental ren ON i.inventory_id = ren.inventory_id
-    JOIN payment p ON ren.rental_id = p.rental_id
-    GROUP BY fa.actor_id, fa1.film_id, f.title
-) r
-JOIN actor a ON r.actor_id = a.actor_id
-WHERE r.rank <= 3
-ORDER BY r.actor_id;
+
