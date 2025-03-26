@@ -12,3 +12,8 @@
  *
  * Your goal should be to have your queries remain correct even if the data in the database changes arbitrarily.
  */
+
+
+SELECT COUNT(DISTINCT customer_id) as count
+FROM customer Cu, address A, city Ci, country Co
+WHERE Cu.address_id=A.address_id AND A.city_id=Ci.city_id AND Ci.country_id=Co.country_id AND NOT Co.country='United States';
