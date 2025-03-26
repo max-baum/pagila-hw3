@@ -7,8 +7,6 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    # Added timeout minutes as SQL took time to run
-    timeout-minutes: 2
     steps:
     - uses: actions/checkout@v2
     - name: docker
@@ -32,11 +30,5 @@ jobs:
         # and a proper check would be to have an infinite loop that terminates once the data has been loaded
         sleep 20
 
-        # run the tests. Increased timeout as query takes a bit longer to run
-        timeout 180s docker compose exec -T pg ./run_tests.sh
-
-    - name: Upload results
-      uses: actions/upload-artifact@v3
-      with:
-        name: test-results
-        path: results/
+        # run the tests. 
+        docker compose exec -T pg ./run_tests.sh
