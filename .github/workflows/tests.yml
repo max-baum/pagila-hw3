@@ -34,3 +34,9 @@ jobs:
 
         # run the tests. Increased timeout as query takes a bit longer to run
         timeout 180s docker compose exec -T pg ./run_tests.sh
+
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: results/
